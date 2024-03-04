@@ -1,0 +1,204 @@
+{
+  "workouts": [
+    {
+      "name": "Push-ups",
+      "description": "Push-ups are a great bodyweight exercise that target the chest, shoulders, and triceps.",
+      "difficulty": "Beginner",
+      "equipment": "None",
+      "duration_minutes": 15,
+      "category": "Chest",
+      "sets": 3,
+      "reps": 12
+    },
+    {
+      "name": "Squats",
+      "description": "Squats are effective for building strength in the legs, particularly the quads, hamstrings, and glutes.",
+      "difficulty": "Intermediate",
+      "equipment": "None",
+      "duration_minutes": 20,
+      "category": "Legs",
+      "sets": 4,
+      "reps": 10
+    },
+    {
+      "name": "Deadlifts",
+      "description": "Deadlifts are a compound exercise that primarily work the muscles in the lower back, hamstrings, and glutes.",
+      "difficulty": "Advanced",
+      "equipment": "Barbell",
+      "duration_minutes": 30,
+      "category": "Back",
+      "sets": 5,
+      "reps": 8
+    },
+    {
+      "name": "Plank",
+      "description": "The plank is a core-strengthening exercise that engages multiple muscle groups, including the abs, back, and shoulders.",
+      "difficulty": "Intermediate",
+      "equipment": "None",
+      "duration_minutes": 10,
+      "category": "Core",
+      "sets": 3,
+      "reps": 30
+    },
+    {
+      "name": "Jumping Jacks",
+      "description": "Jumping jacks are a cardiovascular exercise that also engages the legs, arms, and core muscles.",
+      "difficulty": "Beginner",
+      "equipment": "None",
+      "duration_minutes": 15,
+      "category": "Cardio",
+      "sets": 3,
+      "reps": 20
+    },
+    {
+      "name": "Bench Press",
+      "description": "The bench press is a compound exercise that targets the chest, shoulders, and triceps.",
+      "difficulty": "Intermediate",
+      "equipment": "Barbell",
+      "duration_minutes": 25,
+      "category": "Chest",
+      "sets": 4,
+      "reps": 10
+    },
+    {
+      "name": "Lunges",
+      "description": "Lunges are a unilateral lower body exercise that targets the quads, hamstrings, and glutes.",
+      "difficulty": "Intermediate",
+      "equipment": "None",
+      "duration_minutes": 20,
+      "category": "Legs",
+      "sets": 3,
+      "reps": 12
+    },
+    {
+      "name": "Pull-ups",
+      "description": "Pull-ups are a compound exercise that primarily work the muscles in the back and arms.",
+      "difficulty": "Advanced",
+      "equipment": "Pull-up Bar",
+      "duration_minutes": 30,
+      "category": "Back",
+      "sets": 5,
+      "reps": 8
+    },
+    {
+      "name": "Russian Twists",
+      "description": "Russian twists are a core exercise that target the obliques and improve rotational strength.",
+      "difficulty": "Intermediate",
+      "equipment": "Weighted Ball",
+      "duration_minutes": 15,
+      "category": "Core",
+      "sets": 3,
+      "reps": 20
+    },
+    {
+      "name": "Running",
+      "description": "Running is a high-intensity cardiovascular exercise that improves endurance and burns calories.",
+      "difficulty": "Intermediate",
+      "equipment": "None",
+      "duration_minutes": 30,
+      "category": "Cardio",
+      "sets": 1,
+      "reps": 0
+    },
+    {
+      "name": "Dumbbell Flyes",
+      "description": "Dumbbell flyes are an isolation exercise that targets the chest muscles.",
+      "difficulty": "Intermediate",
+      "equipment": "Dumbbells",
+      "duration_minutes": 20,
+      "category": "Chest",
+      "sets": 4,
+      "reps": 12
+    },
+    {
+      "name": "Leg Press",
+      "description": "The leg press is a compound exercise that targets the quadriceps, hamstrings, and glutes.",
+      "difficulty": "Intermediate",
+      "equipment": "Leg Press Machine",
+      "duration_minutes": 25,
+      "category": "Legs",
+      "sets": 4,
+      "reps": 10
+    },
+    {
+      "name": "Barbell Rows",
+      "description": "Barbell rows are a compound exercise that target the muscles in the upper back and arms.",
+      "difficulty": "Intermediate",
+      "equipment": "Barbell",
+      "duration_minutes": 25,
+      "category": "Back",
+      "sets": 4,
+      "reps": 10
+    },
+    {
+      "name": "Hanging Leg Raises",
+      "description": "Hanging leg raises are an advanced core exercise that target the lower abs and hip flexors.",
+      "difficulty": "Advanced",
+      "equipment": "Pull-up Bar",
+      "duration_minutes": 20,
+      "category": "Core",
+      "sets": 3,
+      "reps": 15
+    },
+    {
+      "name": "Cycling",
+      "description": "Cycling is a low-impact cardiovascular exercise that strengthens the legs and improves cardiovascular health.",
+      "difficulty": "Intermediate",
+      "equipment": "Bicycle",
+      "duration_minutes": 40,
+      "category": "Cardio",
+      "sets": 1,
+      "reps": 0
+    },
+    {
+      "name": "Chest Fly Machine",
+      "description": "The chest fly machine is a resistance exercise that targets the chest muscles.",
+      "difficulty": "Intermediate",
+      "equipment": "Chest Fly Machine",
+      "duration_minutes": 20,
+      "category": "Chest",
+      "sets": 4,
+      "reps": 12
+    },
+    {
+      "name": "Walking Lunges",
+      "description": "Walking lunges are a functional lower body exercise that improve balance and coordination.",
+      "difficulty": "Intermediate",
+      "equipment": "None",
+      "duration_minutes": 20,
+      "category": "Legs",
+      "sets": 3,
+      "reps": 12
+    },
+    {
+      "name": "Lat Pulldowns",
+      "description": "Lat pulldowns are a compound exercise that primarily target the latissimus dorsi muscles in the back.",
+      "difficulty": "Intermediate",
+      "equipment": "Lat Pulldown Machine",
+      "duration_minutes": 25,
+      "category": "Back",
+      "sets": 4,
+      "reps": 10
+    },
+    {
+      "name": "Plank Jacks",
+      "description": "Plank jacks are a challenging core exercise that combine the plank position with jumping movements.",
+      "difficulty": "Intermediate",
+      "equipment": "None",
+      "duration_minutes": 15,
+      "category": "Core",
+      "sets": 3,
+      "reps": 20
+    },
+    {
+      "name": "High-Intensity Interval Training (HIIT)",
+      "description": "HIIT involves short bursts of intense exercise followed by brief rest periods, resulting in a highly effective cardiovascular workout.",
+      "difficulty": "Advanced",
+      "equipment": "None",
+      "duration_minutes": 30,
+      "category": "Cardio",
+      "sets": 1,
+      "reps": 0
+    }
+  ]
+}
