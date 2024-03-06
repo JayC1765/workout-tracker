@@ -46,8 +46,8 @@ const CreateWorkout = () => {
             onChange={(e) => setCurrCategory(e.target.value)}
             sx={{ textAlign: 'center' }}
           >
-            {categories.map((category, index) => (
-              <MenuItem key={index} value={category}>
+            {categories.map((category) => (
+              <MenuItem key={category} value={category}>
                 {category}
               </MenuItem>
             ))}

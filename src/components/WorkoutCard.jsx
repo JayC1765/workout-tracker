@@ -7,27 +7,14 @@ import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 import Box from '@mui/material/Box';
 import PropTypes from 'prop-types';
+import { addLSworkouts } from '../util/workoutsLS';
 
 const WorkoutCard = ({ workout }) => {
   const { name, category, description, difficulty, reps, sets } = workout;
 
-  const setWorkoutsLS = (workouts) => {
-    localStorage.setItem('myWorkouts', JSON.stringify(workouts));
-  };
-
-  const getWorkoutsLS = () => {
-    const workouts = localStorage.getItem('myWorkouts');
-    return workouts ? JSON.parse(workouts) : [];
-  };
-
   const handleAdd = () => {
-    const myWorkouts = getWorkoutsLS();
-    const updatedWorkouts = [
-      ...myWorkouts,
-      { ...workout, status: 'incomplete' },
-    ];
-    setWorkoutsLS(updatedWorkouts);
-    console.log('successfully added workout');
+    addLSworkouts('myWorkouts', workout);
+    window.dispatchEvent(new Event('workoutsLocalStorage'));
   };
 
   return (
