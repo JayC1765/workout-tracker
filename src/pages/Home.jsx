@@ -6,17 +6,16 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import CreateWorkout from '../components/CreateWorkout';
 import StartWorkout from '../components/StartWorkout';
-import { getLSworkouts } from '../util/workoutsLS';
+import { getLSWorkouts } from '../util/workoutsLS';
 
 const Home = () => {
   const [tab, setTab] = useState('create-workout');
   const [currWorkouts, setCurrWorkouts] = useState([]);
 
   useEffect(() => {
+    // Retrieve user workouts from localStorage
     const updateWorkouts = () => {
-      const workouts = getLSworkouts('myWorkouts');
-      console.log('did this fire?');
-      console.log(workouts);
+      const workouts = getLSWorkouts('myWorkouts');
       setCurrWorkouts(workouts);
     };
 
@@ -43,7 +42,7 @@ const Home = () => {
           </TabList>
         </Box>
         <TabPanel value="create-workout">
-          <CreateWorkout />
+          <CreateWorkout currWorkouts={currWorkouts} />
         </TabPanel>
         <TabPanel value="start-workout">
           <StartWorkout currWorkouts={currWorkouts} />

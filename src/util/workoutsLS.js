@@ -1,13 +1,12 @@
-const getLSworkouts = (key) => {
+const getLSWorkouts = (key) => {
   const workouts = localStorage.getItem(key);
   return workouts ? JSON.parse(workouts) : [];
 };
 
-const addLSworkouts = (key, workout) => {
-  const workouts = getLSworkouts(key);
-  console.log('inside addLSworkouts:', workouts);
-  const updatedWorkouts = [...workouts, { ...workout, status: 'incomplete' }];
+const addLSWorkouts = (key, workout) => {
+  const workouts = getLSWorkouts(key);
+  const updatedWorkouts = [...workouts, { ...workout, status: 'Not Started' }];
   localStorage.setItem(key, JSON.stringify(updatedWorkouts));
 };
 
-export { getLSworkouts, addLSworkouts };
+export { getLSWorkouts, addLSWorkouts };

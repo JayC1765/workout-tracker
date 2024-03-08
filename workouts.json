@@ -133,6 +133,7 @@
       "reps": 10
     },
     {
+      "id": 13,
       "name": "Barbell Rows",
       "description": "Barbell rows are a compound exercise that target the muscles in the upper back and arms.",
       "difficulty": "Intermediate",
@@ -140,10 +141,10 @@
       "duration_minutes": 25,
       "category": "Back",
       "sets": 4,
-      "reps": 10,
-      "id": 13
+      "reps": 10
     },
     {
+      "id": 14,
       "name": "Hanging Leg Raises",
       "description": "Hanging leg raises are an advanced core exercise that target the lower abs and hip flexors.",
       "difficulty": "Advanced",
@@ -151,10 +152,10 @@
       "duration_minutes": 20,
       "category": "Core",
       "sets": 3,
-      "reps": 15,
-      "id": 14
+      "reps": 15
     },
     {
+      "id": 15,
       "name": "Cycling",
       "description": "Cycling is a low-impact cardiovascular exercise that strengthens the legs and improves cardiovascular health.",
       "difficulty": "Intermediate",
@@ -162,10 +163,10 @@
       "duration_minutes": 40,
       "category": "Cardio",
       "sets": 1,
-      "reps": 0,
-      "id": 15
+      "reps": 0
     },
     {
+      "id": 16,
       "name": "Chest Fly Machine",
       "description": "The chest fly machine is a resistance exercise that targets the chest muscles.",
       "difficulty": "Intermediate",
@@ -173,10 +174,10 @@
       "duration_minutes": 20,
       "category": "Chest",
       "sets": 4,
-      "reps": 12,
-      "id": 16
+      "reps": 12
     },
     {
+      "id": 17,
       "name": "Walking Lunges",
       "description": "Walking lunges are a functional lower body exercise that improve balance and coordination.",
       "difficulty": "Intermediate",
@@ -184,10 +185,10 @@
       "duration_minutes": 20,
       "category": "Legs",
       "sets": 3,
-      "reps": 12,
-      "id": 17
+      "reps": 12
     },
     {
+      "id": 18,
       "name": "Lat Pulldowns",
       "description": "Lat pulldowns are a compound exercise that primarily target the latissimus dorsi muscles in the back.",
       "difficulty": "Intermediate",
@@ -195,10 +196,10 @@
       "duration_minutes": 25,
       "category": "Back",
       "sets": 4,
-      "reps": 10,
-      "id": 18
+      "reps": 10
     },
     {
+      "id": 19,
       "name": "Plank Jacks",
       "description": "Plank jacks are a challenging core exercise that combine the plank position with jumping movements.",
       "difficulty": "Intermediate",
@@ -206,10 +207,10 @@
       "duration_minutes": 15,
       "category": "Core",
       "sets": 3,
-      "reps": 20,
-      "id": 19
+      "reps": 20
     },
     {
+      "id": 20,
       "name": "High-Intensity Interval Training (HIIT)",
       "description": "HIIT involves short bursts of intense exercise followed by brief rest periods, resulting in a highly effective cardiovascular workout.",
       "difficulty": "Advanced",
@@ -217,8 +218,7 @@
       "duration_minutes": 30,
       "category": "Cardio",
       "sets": 1,
-      "reps": 0,
-      "id": 20
+      "reps": 0
     }
   ]
 }
