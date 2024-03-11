@@ -6,7 +6,7 @@ const Timer = ({ workout }) => {
   const [isActive, setIsActive] = useState(false);
   const [isResting, setIsResting] = useState(false);
   const [isPaused, setIsPaused] = useState(null);
-  const [sets, setSets] = useState(workout.sets);
+  const [sets, setSets] = useState(workout.currentSets);
   const [mode, setMode] = useState('active');
 
   useEffect(() => {

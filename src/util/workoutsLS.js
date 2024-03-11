@@ -5,7 +5,10 @@ const getLSWorkouts = (key) => {
 
 const addLSWorkouts = (key, workout) => {
   const workouts = getLSWorkouts(key);
-  const updatedWorkouts = [...workouts, { ...workout, status: 'Not Started' }];
+  const updatedWorkouts = [
+    ...workouts,
+    { ...workout, status: 'Not Started', currentSets: workout.sets },
+  ];
   localStorage.setItem(key, JSON.stringify(updatedWorkouts));
 };
 

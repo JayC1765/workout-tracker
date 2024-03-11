@@ -17,15 +17,16 @@ function StartWorkout({ currWorkouts }) {
     sets: 2,
     reps: 12,
     status: 'Not Started',
+    currentSets: 2,
   });
 
   return (
     <div>
       {showTimer ? (
         currWorkouts &&
-        currWorkouts.map((workout, index) => (
+        currWorkouts.map((workout) => (
           <ActiveWorkout
-            key={index}
+            key={workout.id}
             workout={workout}
             setShowTimer={setShowTimer}
           />
