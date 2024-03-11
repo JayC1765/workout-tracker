@@ -1,23 +1,35 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 
-const ActiveWorkout = ({ workout, setShowTimer }) => {
+const ActiveWorkout = ({ workout, setShowTimer, setCurrWorkout }) => {
   const [currStatus, setCurrentStatus] = useState(workout.status);
 
-  const changeStatus = () => {
-    setCurrentStatus('In Progress');
+  const handleStart = () => {
+    setShowTimer(true);
+    setCurrWorkout(workout);
   };
 
   const renderButton = () => {
+    // return currStatus === 'Completed' ? (
+    //   <p>Completed</p>
+    // ) : currStatus === 'Not Started' ? (
+    //   <Button variant="contained" color="primary" onClick={changeStatus}>
+    //     Start Workout
+    //   </Button>
+    // ) : (
+    //   <Button variant="contained" color="secondary" onClick={changeStatus}>
+    //     Continue
+    //   </Button>
+    // );
     return currStatus === 'Completed' ? (
       <p>Completed</p>
-    ) : currStatus === 'Not Started' ? (
-      <Button variant="contained" color="primary" onClick={changeStatus}>
-        Start Workout
-      </Button>
     ) : (
-      <Button variant="contained" color="secondary" onClick={changeStatus}>
-        Continue
+      <Button
+        variant="contained"
+        color={currStatus === 'Not Started' ? 'primary' : 'secondary'}
+        onClick={handleStart}
+      >
+        {currStatus === 'Not Started' ? 'Start Workout' : 'Continue'}
       </Button>
     );
   };
