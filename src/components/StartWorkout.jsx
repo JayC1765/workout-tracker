@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ActiveWorkout from './ActiveWorkout';
 import Timer from './Timer';
-import TestTimer from './TestTimer';
 
 function StartWorkout({ currWorkouts }) {
   const [showTimer, setShowTimer] = useState(false);
@@ -15,14 +14,14 @@ function StartWorkout({ currWorkouts }) {
     equipment: 'Dumbbells',
     duration_minutes: 20,
     category: 'Chest',
-    sets: 4,
+    sets: 2,
     reps: 12,
     status: 'Not Started',
   });
 
   return (
     <div>
-      {!showTimer ? (
+      {showTimer ? (
         currWorkouts &&
         currWorkouts.map((workout, index) => (
           <ActiveWorkout
@@ -32,8 +31,7 @@ function StartWorkout({ currWorkouts }) {
           />
         ))
       ) : (
-        // <Timer setShowTimer={setShowTimer} workout={workout} />
-        <div>Timer component</div>
+        <Timer setShowTimer={setShowTimer} workout={workout} />
       )}
     </div>
   );
