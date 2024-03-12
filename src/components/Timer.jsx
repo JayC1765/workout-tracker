@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { CircularProgress, Typography, Button } from '@mui/material';
 
-const Timer = ({ workout }) => {
+const Timer = ({ workout, setShowTimer }) => {
   const [timeLeft, setTimeLeft] = useState(10);
   const [isActive, setIsActive] = useState(false);
   const [isResting, setIsResting] = useState(false);
@@ -82,9 +82,13 @@ const Timer = ({ workout }) => {
     setIsPaused(true);
   };
 
+  const handleBack = () => {
+    setShowTimer(false);
+  };
+
   return (
     <div>
-      <Typography>Go back</Typography>
+      <Button onClick={handleBack}>Go back</Button>
       <div
         style={{
           textAlign: 'center',
