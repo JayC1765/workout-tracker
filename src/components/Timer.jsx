@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { CircularProgress, Typography, Button } from '@mui/material';
 import { updateLSWorkout } from '../util/workoutsLS';
 import PropTypes from 'prop-types';
+// import { IoIosSettings } from 'react-icons/io';
 
 const Timer = ({ workout, setShowTimer, currWorkouts }) => {
   const [timeLeft, setTimeLeft] = useState(10);
@@ -10,6 +11,8 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
   const [isPaused, setIsPaused] = useState(null);
   const [sets, setSets] = useState(workout.currentSets);
   const [mode, setMode] = useState('active');
+
+  console.log('current inside timer', workout);
 
   useEffect(() => {
     let interval;
@@ -174,28 +177,28 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
 
 export default Timer;
 
-Timer.propTypes = {
-  workout: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    category: PropTypes.string,
-    description: PropTypes.string,
-    difficulty: PropTypes.string,
-    reps: PropTypes.number,
-    sets: PropTypes.number,
-    currentSets: PropTypes.number,
-  }).isRequired,
-  setShowTimer: PropTypes.func.isRequired,
-  currWorkouts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      category: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      difficulty: PropTypes.string.isRequired,
-      reps: PropTypes.number.isRequired,
-      sets: PropTypes.number.isRequired,
-      currentSets: PropTypes.number.isRequired,
-    })
-  ).isRequired,
-};
+// Timer.propTypes = {
+//   workout: PropTypes.shape({
+//     id: PropTypes.number,
+//     name: PropTypes.string,
+//     category: PropTypes.string,
+//     description: PropTypes.string,
+//     difficulty: PropTypes.string,
+//     reps: PropTypes.number,
+//     sets: PropTypes.number,
+//     currentSets: PropTypes.number,
+//   }).isRequired,
+//   setShowTimer: PropTypes.func.isRequired,
+//   currWorkouts: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.number.isRequired,
+//       name: PropTypes.string.isRequired,
+//       category: PropTypes.string.isRequired,
+//       description: PropTypes.string.isRequired,
+//       difficulty: PropTypes.string.isRequired,
+//       reps: PropTypes.number.isRequired,
+//       sets: PropTypes.number.isRequired,
+//       currentSets: PropTypes.number.isRequired,
+//     })
+//   ).isRequired,
+// };

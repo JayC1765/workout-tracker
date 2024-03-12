@@ -16,6 +16,7 @@ const CreateWorkout = ({ currWorkouts }) => {
   const [currCategory, setCurrCategory] = useState('');
   const [workouts, setWorkouts] = useState([]);
   const allWorkouts = useSelector((state) => state.workouts.allWorkouts);
+  const [isDuplicate, setIsDuplicate] = useState(false);
 
   useEffect(() => {
     // consider memoizing this computation
@@ -36,13 +37,13 @@ const CreateWorkout = ({ currWorkouts }) => {
   const handleClick = () => {
     const currWorkoutsID = currWorkouts.map((workout) => workout.id);
 
-    // only renders list of workouts that are not already in your currWorkouts
     const workoutList = allWorkouts.filter(
       (workout) =>
         workout.category === currCategory &&
         !currWorkoutsID.includes(workout.id)
     );
 
+    if (workoutList.length === 0) setIsDuplicate(true);
     setWorkouts(workoutList);
   };
 
@@ -54,7 +55,10 @@ const CreateWorkout = ({ currWorkouts }) => {
           <InputLabel>Select a Muscle</InputLabel>
           <Select
             value={currCategory}
-            onChange={(e) => setCurrCategory(e.target.value)}
+            onChange={(e) => {
+              setCurrCategory(e.target.value);
+              setIsDuplicate(false);
+            }}
             sx={{ textAlign: 'center' }}
           >
             {categories &&
@@ -81,7 +85,7 @@ const CreateWorkout = ({ currWorkouts }) => {
           ))}
         </Box>
       ) : (
-        currWorkouts.length > 0 && (
+        isDuplicate && (
           <Typography>
             All workouts in this muscle group has already been added.
           </Typography>

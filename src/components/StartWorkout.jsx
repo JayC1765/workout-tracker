@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ActiveWorkout from './ActiveWorkout';
 import Timer from './Timer';
+import { IoIosSettings } from 'react-icons/io';
 
 function StartWorkout({ currWorkouts }) {
   const [showTimer, setShowTimer] = useState(false);
@@ -23,22 +24,26 @@ function StartWorkout({ currWorkouts }) {
 
   return (
     <div>
-      {!showTimer ? (
-        currWorkouts &&
-        currWorkouts.map((workout) => (
-          <ActiveWorkout
-            key={workout.id}
-            workout={workout}
+      {currWorkouts.length > 0 ? (
+        !showTimer ? (
+          // currWorkouts &&
+          currWorkouts.map((workout) => (
+            <ActiveWorkout
+              key={workout.id}
+              workout={workout}
+              setShowTimer={setShowTimer}
+              setCurrWorkout={setCurrWorkout}
+            />
+          ))
+        ) : (
+          <Timer
             setShowTimer={setShowTimer}
-            setCurrWorkout={setCurrWorkout}
+            workout={currWorkout}
+            currWorkouts={currWorkouts}
           />
-        ))
+        )
       ) : (
-        <Timer
-          setShowTimer={setShowTimer}
-          workout={currWorkout}
-          currWorkouts={currWorkouts}
-        />
+        <p>Please add workout first</p>
       )}
     </div>
   );
