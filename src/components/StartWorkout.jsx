@@ -1,19 +1,45 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
+import ActiveWorkout from './ActiveWorkout';
+import Timer from './Timer';
 
 function StartWorkout({ currWorkouts }) {
-  console.log(currWorkouts);
+  const [showTimer, setShowTimer] = useState(false);
+  const [currWorkout, setCurrWorkout] = useState(null);
+  // const [workout, setWorkout] = useState({
+  //   id: 11,
+  //   name: 'Dumbbell Flyes',
+  //   description:
+  //     'Dumbbell flyes are an isolation exercise that targets the chest muscles.',
+  //   difficulty: 'Intermediate',
+  //   equipment: 'Dumbbells',
+  //   duration_minutes: 20,
+  //   category: 'Chest',
+  //   sets: 2,
+  //   reps: 12,
+  //   status: 'Not Started',
+  //   currentSets: 2,
+  // });
 
   return (
     <div>
-      <p>StartWorkout</p>
-      {currWorkouts &&
-        currWorkouts.map((workout, index) => (
-          <div key={index}>
-            {workout.name}
-            {workout.status}
-          </div>
-        ))}
+      {!showTimer ? (
+        currWorkouts &&
+        currWorkouts.map((workout) => (
+          <ActiveWorkout
+            key={workout.id}
+            workout={workout}
+            setShowTimer={setShowTimer}
+            setCurrWorkout={setCurrWorkout}
+          />
+        ))
+      ) : (
+        <Timer
+          setShowTimer={setShowTimer}
+          workout={currWorkout}
+          currWorkouts={currWorkouts}
+        />
+      )}
     </div>
   );
 }
