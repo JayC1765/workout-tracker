@@ -34,7 +34,11 @@ function StartWorkout({ currWorkouts }) {
           />
         ))
       ) : (
-        <Timer setShowTimer={setShowTimer} workout={currWorkout} />
+        <Timer
+          setShowTimer={setShowTimer}
+          workout={currWorkout}
+          currWorkouts={currWorkouts}
+        />
       )}
     </div>
   );

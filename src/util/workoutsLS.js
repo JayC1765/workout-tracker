@@ -12,4 +12,8 @@ const addLSWorkouts = (key, workout) => {
   localStorage.setItem(key, JSON.stringify(updatedWorkouts));
 };
 
-export { getLSWorkouts, addLSWorkouts };
+const updateLSWorkout = (key, workouts) => {
+  localStorage.setItem(key, JSON.stringify(workouts));
+};
+
+export { getLSWorkouts, addLSWorkouts, updateLSWorkout };

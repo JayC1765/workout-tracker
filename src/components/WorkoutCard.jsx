@@ -47,6 +47,7 @@ WorkoutCard.propTypes = {
     difficulty: PropTypes.string,
     reps: PropTypes.number,
     sets: PropTypes.number,
+    currentSets: PropTypes.number,
   }).isRequired,
   setWorkouts: PropTypes.func.isRequired,
 };

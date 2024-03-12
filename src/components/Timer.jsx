@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { CircularProgress, Typography, Button } from '@mui/material';
+import { updateLSWorkout } from '../util/workoutsLS';
+import PropTypes from 'prop-types';
 
-const Timer = ({ workout, setShowTimer }) => {
+const Timer = ({ workout, setShowTimer, currWorkouts }) => {
   const [timeLeft, setTimeLeft] = useState(10);
   const [isActive, setIsActive] = useState(false);
   const [isResting, setIsResting] = useState(false);
@@ -46,6 +48,21 @@ const Timer = ({ workout, setShowTimer }) => {
 
     return () => clearInterval(interval);
   }, [isActive, isResting, timeLeft, sets]);
+
+  useEffect(() => {
+    const updatedWorkouts = currWorkouts.map((w) => {
+      if (w.id === workout.id) {
+        return sets === 0
+          ? { ...workout, currentSets: sets, status: 'Completed' }
+          : { ...workout, currentSets: sets, status: 'In Progress' };
+      } else {
+        return w;
+      }
+    });
+
+    updateLSWorkout('myWorkouts', updatedWorkouts);
+    window.dispatchEvent(new Event('workoutsLocalStorage'));
+  }, [sets]);
 
   const handleStart = () => {
     setIsActive(true);
@@ -156,3 +173,29 @@ const Timer = ({ workout, setShowTimer }) => {
 };
 
 export default Timer;
+
+Timer.propTypes = {
+  workout: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    category: PropTypes.string,
+    description: PropTypes.string,
+    difficulty: PropTypes.string,
+    reps: PropTypes.number,
+    sets: PropTypes.number,
+    currentSets: PropTypes.number,
+  }).isRequired,
+  setShowTimer: PropTypes.func.isRequired,
+  currWorkouts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      difficulty: PropTypes.string.isRequired,
+      reps: PropTypes.number.isRequired,
+      sets: PropTypes.number.isRequired,
+      currentSets: PropTypes.number.isRequired,
+    })
+  ).isRequired,
+};
