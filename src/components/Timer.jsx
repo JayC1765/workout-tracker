@@ -121,105 +121,108 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
   };
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        margin: '10px 20px',
+        border: '1px solid black',
+      }}
+    >
+      <Button onClick={handleBack}>Go back</Button>
       <Box
         style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          margin: '10px 20px',
+          textAlign: 'center',
         }}
       >
-        <Button sx={{ alignItems: 'flex-start' }} onClick={handleBack}>
-          Go back
-        </Button>
-        <Box
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          <Typography variant="h5">{workout.name}</Typography>
-          <Typography variant="h5">Total Sets: {workout.sets}</Typography>
-          <Typography>
-            {sets > 0
-              ? mode === 'active'
-                ? `Sets Remaining: ${sets}`
-                : 'REST PERIOD'
-              : 'GREAT JOB! Workout Completed'}
-          </Typography>
-          {sets > 0 && (
-            <Box style={{ display: 'flex', flexDirection: 'column' }}>
-              <Box
+        <Typography variant="h5">{workout.name}</Typography>
+        <Typography variant="h5">Total Sets: {workout.sets}</Typography>
+        <Typography>
+          {sets > 0
+            ? mode === 'active'
+              ? `Sets Remaining: ${sets}`
+              : 'REST PERIOD'
+            : 'GREAT JOB! Workout Completed'}
+        </Typography>
+        {sets > 0 && (
+          <Box style={{ display: 'flex', flexDirection: 'column' }}>
+            <Box
+              style={{
+                position: 'relative',
+                display: 'inline-block',
+                marginTop: '20px',
+              }}
+            >
+              <CircularProgress
+                variant="determinate"
+                value={
+                  !isResting && mode === 'active'
+                    ? (timeLeft / workTime) * 100
+                    : (timeLeft / restTime) * 100
+                }
+                color={
+                  !isResting && mode === 'active' ? 'primary' : 'secondary'
+                }
+                size={200}
+                thickness={2}
+                style={{ marginBottom: '20px' }}
+              />
+              <Typography
+                variant="h4"
                 style={{
-                  position: 'relative',
-                  display: 'inline-block',
-                  marginTop: '20px',
+                  position: 'absolute',
+                  top: '45%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
                 }}
               >
-                <CircularProgress
-                  variant="determinate"
-                  value={
-                    !isResting && mode === 'active'
-                      ? (timeLeft / workTime) * 100
-                      : (timeLeft / restTime) * 100
-                  }
-                  color={
-                    !isResting && mode === 'active' ? 'primary' : 'secondary'
-                  }
-                  size={200}
-                  thickness={2}
-                  style={{ marginBottom: '20px' }}
-                />
-                <Typography
-                  variant="h4"
-                  style={{
-                    position: 'absolute',
-                    top: '45%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                  }}
-                >
-                  {timeLeft}
-                </Typography>
-              </Box>
-              {!isActive && !isResting && isPaused === null ? (
-                <Button onClick={handleStart}>Start</Button>
-              ) : (
-                <Box>
-                  <Button onClick={handlePause}>
-                    {isPaused ? 'Continue' : 'Pause'}
-                  </Button>
-                  <Button onClick={handleReset}>Reset</Button>
-                </Box>
-              )}
+                {timeLeft}
+              </Typography>
             </Box>
-          )}
-        </Box>
-        <Box sx={{ width: '400px' }}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-            {!showSettings ? (
-              <Button onClick={handleSettings}>
-                <IoIosSettings style={{ fontSize: '24px' }} /> settings
-              </Button>
+            {!isActive && !isResting && isPaused === null ? (
+              <Button onClick={handleStart}>Start</Button>
             ) : (
-              <Button onClick={() => setShowSettings(false)}>
-                <IoMdClose style={{ fontSize: '24px' }} />
-              </Button>
+              <Box>
+                <Button onClick={handlePause}>
+                  {isPaused ? 'Continue' : 'Pause'}
+                </Button>
+                <Button onClick={handleReset}>Reset</Button>
+              </Box>
             )}
           </Box>
-          {showSettings && (
-            <Settings
-              workTime={workTime}
-              setWorkTime={setWorkTime}
-              restTime={restTime}
-              setRestTime={setRestTime}
-              setTimeLeft={setTimeLeft}
-              mode={mode}
-              setIsActive={setIsActive}
-              setIsResting={setIsResting}
-              setIsPaused={setIsPaused}
-            />
-          )}
-        </Box>
+        )}
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          width: '400px',
+        }}
+      >
+        {!showSettings ? (
+          <Button onClick={handleSettings}>
+            <IoIosSettings style={{ fontSize: '24px' }} /> settings
+          </Button>
+        ) : (
+          <Button onClick={() => setShowSettings(false)}>
+            <IoMdClose style={{ fontSize: '24px' }} />
+          </Button>
+        )}
+        {showSettings && (
+          <Settings
+            workTime={workTime}
+            setWorkTime={setWorkTime}
+            restTime={restTime}
+            setRestTime={setRestTime}
+            setTimeLeft={setTimeLeft}
+            mode={mode}
+            setIsActive={setIsActive}
+            setIsResting={setIsResting}
+            setIsPaused={setIsPaused}
+          />
+        )}
       </Box>
     </Box>
   );

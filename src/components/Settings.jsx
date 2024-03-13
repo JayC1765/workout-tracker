@@ -37,8 +37,8 @@ const Settings = ({
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
         width: '300px',
+        padding: '20px',
       }}
     >
       <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
@@ -69,7 +69,7 @@ const Settings = ({
         <Slider
           value={restTime}
           onChange={handleRestTime}
-          valueLabelDisplay="on"
+          valueLabelDisplay="auto"
           shiftStep={15}
           step={15}
           min={15}
