@@ -8,31 +8,47 @@ const Settings = ({
   setWorkTime,
   restTime,
   setRestTime,
-  setShowSettings,
   setTimeLeft,
+  setIsActive,
+  setIsResting,
+  setIsPaused,
+  mode,
 }) => {
-  const handleBack = () => {
-    setShowSettings(false);
+  const handleWorkTime = (event, newValue) => {
+    if (mode === 'active') {
+      setTimeLeft(newValue);
+    }
+    setWorkTime(newValue);
+    setIsActive(false);
+    setIsPaused(true);
   };
 
-  const handleWorkTime = (event, newValue) => {
-    setWorkTime(newValue);
-    setTimeLeft(newValue);
+  const handleRestTime = (event, newValue) => {
+    if (mode === 'rest') {
+      setTimeLeft(newValue);
+    }
+    setRestTime(newValue);
+    setIsResting(false);
+    setIsPaused(true);
   };
 
   return (
-    // <Box sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-    <Box>
-      <Button onClick={handleBack}>Back to Timer</Button>
-      <Box sx={{ width: 300, marginTop: '40px' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '300px',
+      }}
+    >
+      <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
+        <Typography variant="body1">Work</Typography>
         <Slider
           value={workTime}
-          // onChange={(event, newValue) => setWorkTime(newValue)}
           onChange={handleWorkTime}
-          valueLabelDisplay="on"
+          valueLabelDisplay="auto"
           shiftStep={15}
           step={15}
-          // marks
           min={15}
           max={120}
           sx={{
@@ -44,17 +60,31 @@ const Settings = ({
             '& .MuiSlider-track': {
               height: 10,
             },
+            marginBottom: '50px',
           }}
         />
+      </Box>
+      <Box sx={{ display: 'flex', width: '100%', gap: '30px' }}>
+        <Typography variant="body1">Rest</Typography>
         <Slider
           value={restTime}
-          onChange={(event, newValue) => setRestTime(newValue)}
-          valueLabelDisplay="auto"
+          onChange={handleRestTime}
+          valueLabelDisplay="on"
           shiftStep={15}
           step={15}
-          // marks
           min={15}
           max={120}
+          sx={{
+            '& .MuiSlider-thumb': {
+              width: 24,
+              height: 24,
+              color: 'red',
+            },
+            '& .MuiSlider-track': {
+              height: 10,
+            },
+            marginBottom: '50px',
+          }}
         />
       </Box>
     </Box>
