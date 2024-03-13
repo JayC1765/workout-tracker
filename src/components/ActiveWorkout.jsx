@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
+import { IoIosCheckmarkCircle } from 'react-icons/io';
 
 const ActiveWorkout = ({ workout, setShowTimer, setCurrWorkout }) => {
   const [currStatus, setCurrentStatus] = useState(workout.status);
@@ -10,27 +11,16 @@ const ActiveWorkout = ({ workout, setShowTimer, setCurrWorkout }) => {
   };
 
   const renderButton = () => {
-    // return currStatus === 'Completed' ? (
-    //   <p>Completed</p>
-    // ) : currStatus === 'Not Started' ? (
-    //   <Button variant="contained" color="primary" onClick={changeStatus}>
-    //     Start Workout
-    //   </Button>
-    // ) : (
-    //   <Button variant="contained" color="secondary" onClick={changeStatus}>
-    //     Continue
-    //   </Button>
-    // );
-    return currStatus === 'Completed' ? (
-      <p>Completed</p>
-    ) : (
-      <Button
-        variant="contained"
-        color={currStatus === 'Not Started' ? 'primary' : 'secondary'}
-        onClick={handleStart}
-      >
-        {currStatus === 'Not Started' ? 'Start Workout' : 'Continue'}
-      </Button>
+    return (
+      currStatus !== 'Completed' && (
+        <Button
+          variant="contained"
+          color={currStatus === 'Not Started' ? 'primary' : 'secondary'}
+          onClick={handleStart}
+        >
+          {currStatus === 'Not Started' ? 'Start Workout' : 'Continue'}
+        </Button>
+      )
     );
   };
 
@@ -50,7 +40,14 @@ const ActiveWorkout = ({ workout, setShowTimer, setCurrWorkout }) => {
           <strong>Description:</strong> {workout.description}
         </Typography>
         <Typography variant="body1">
-          <strong>Status:</strong> {workout.status}
+          <strong>Status:</strong>{' '}
+          {workout.status === 'Completed' ? (
+            <IoIosCheckmarkCircle
+              style={{ fontSize: '20px', color: 'green' }}
+            />
+          ) : (
+            workout.status
+          )}
         </Typography>
         {renderButton()}
       </CardContent>
