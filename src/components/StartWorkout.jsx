@@ -1,14 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ActiveWorkout from './ActiveWorkout';
 import Timer from './Timer';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
-function StartWorkout({ currWorkouts }) {
+function StartWorkout({ currWorkouts, setCurrWorkouts }) {
   const [showTimer, setShowTimer] = useState(false);
   const [currWorkout, setCurrWorkout] = useState(null);
+  const [isIncomplete, setIsIncomplete] = useState(false);
+
+  const handleSwitch = () => {
+    setIsIncomplete(!isIncomplete);
+  };
 
   return (
     <div>
+      <FormControlLabel
+        onChange={handleSwitch}
+        control={<Switch />}
+        label="Incomplete"
+      />
+
       {currWorkouts.length > 0 ? (
         !showTimer ? (
           currWorkouts.map((workout) => (

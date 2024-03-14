@@ -45,7 +45,10 @@ const Home = () => {
           <CreateWorkout currWorkouts={currWorkouts} />
         </TabPanel>
         <TabPanel value="start-workout">
-          <StartWorkout currWorkouts={currWorkouts} />
+          <StartWorkout
+            currWorkouts={currWorkouts}
+            setCurrWorkouts={setCurrWorkouts}
+          />
         </TabPanel>
       </TabContext>
     </Box>
