@@ -17,7 +17,7 @@ function StartWorkout({ currWorkouts, setCurrWorkouts }) {
   return (
     <div>
       <FormControlLabel
-        onChange={handleSwitch}
+        onChange={() => setIsIncomplete(!isIncomplete)}
         control={<Switch />}
         label="Incomplete"
       />
