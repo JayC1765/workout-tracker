@@ -10,10 +10,6 @@ function StartWorkout({ currWorkouts, setCurrWorkouts }) {
   const [currWorkout, setCurrWorkout] = useState(null);
   const [isIncomplete, setIsIncomplete] = useState(false);
 
-  const handleSwitch = () => {
-    setIsIncomplete(!isIncomplete);
-  };
-
   return (
     <div>
       <FormControlLabel
