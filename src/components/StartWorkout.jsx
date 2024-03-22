@@ -5,7 +5,7 @@ import Timer from './Timer';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
-function StartWorkout({ currWorkouts, setCurrWorkouts }) {
+function StartWorkout({ currWorkouts }) {
   const [showTimer, setShowTimer] = useState(false);
   const [currWorkout, setCurrWorkout] = useState(null);
   const [isIncomplete, setIsIncomplete] = useState(false);
