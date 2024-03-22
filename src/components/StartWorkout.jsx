@@ -10,41 +10,52 @@ function StartWorkout({ currWorkouts, setCurrWorkouts }) {
   const [currWorkout, setCurrWorkout] = useState(null);
   const [isIncomplete, setIsIncomplete] = useState(false);
 
-  const mapWorkouts = (workout) => (
-    <ActiveWorkout
-      key={workout.id}
-      workout={workout}
-      setShowTimer={setShowTimer}
-      setCurrWorkout={setCurrWorkout}
-    />
-  );
+  const renderActiveWorkouts = (workout) => {
+    if (isIncomplete) {
+      if (workout.status !== 'Completed') {
+        return (
+          <ActiveWorkout
+            key={workout.id}
+            workout={workout}
+            setShowTimer={setShowTimer}
+            setCurrWorkout={setCurrWorkout}
+          />
+        );
+      }
+    } else {
+      return (
+        <ActiveWorkout
+          key={workout.id}
+          workout={workout}
+          setShowTimer={setShowTimer}
+          setCurrWorkout={setCurrWorkout}
+        />
+      );
+    }
+    return null;
+  };
 
   return (
     <div>
-      <FormControlLabel
-        onChange={() => setIsIncomplete(!isIncomplete)}
-        control={<Switch />}
-        label="Incomplete"
-      />
-
-      {currWorkouts.length > 0 ? (
-        !showTimer ? (
-          isIncomplete ? (
-            currWorkouts
-              .filter((workout) => workout.status !== 'Completed')
-              .map(mapWorkouts)
-          ) : (
-            currWorkouts.map(mapWorkouts)
-          )
-        ) : (
-          <Timer
-            setShowTimer={setShowTimer}
-            workout={currWorkout}
-            currWorkouts={currWorkouts}
+      {!showTimer ? (
+        <>
+          <FormControlLabel
+            onChange={() => setIsIncomplete(!isIncomplete)}
+            control={<Switch />}
+            label="Incomplete"
           />
-        )
+          {currWorkouts.length > 0 ? (
+            currWorkouts.map(renderActiveWorkouts)
+          ) : (
+            <p>Please add workout first</p>
+          )}
+        </>
       ) : (
-        <p>Please add workout first</p>
+        <Timer
+          setShowTimer={setShowTimer}
+          workout={currWorkout}
+          currWorkouts={currWorkouts}
+        />
       )}
     </div>
   );
