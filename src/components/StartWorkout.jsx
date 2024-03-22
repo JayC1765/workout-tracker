@@ -10,6 +10,15 @@ function StartWorkout({ currWorkouts, setCurrWorkouts }) {
   const [currWorkout, setCurrWorkout] = useState(null);
   const [isIncomplete, setIsIncomplete] = useState(false);
 
+  const mapWorkouts = (workout) => (
+    <ActiveWorkout
+      key={workout.id}
+      workout={workout}
+      setShowTimer={setShowTimer}
+      setCurrWorkout={setCurrWorkout}
+    />
+  );
+
   return (
     <div>
       <FormControlLabel
@@ -20,14 +29,13 @@ function StartWorkout({ currWorkouts, setCurrWorkouts }) {
 
       {currWorkouts.length > 0 ? (
         !showTimer ? (
-          currWorkouts.map((workout) => (
-            <ActiveWorkout
-              key={workout.id}
-              workout={workout}
-              setShowTimer={setShowTimer}
-              setCurrWorkout={setCurrWorkout}
-            />
-          ))
+          isIncomplete ? (
+            currWorkouts
+              .filter((workout) => workout.status !== 'Completed')
+              .map(mapWorkouts)
+          ) : (
+            currWorkouts.map(mapWorkouts)
+          )
         ) : (
           <Timer
             setShowTimer={setShowTimer}
@@ -42,8 +50,6 @@ function StartWorkout({ currWorkouts, setCurrWorkouts }) {
   );
 }
 
-export default StartWorkout;
-
 StartWorkout.propTypes = {
   currWorkouts: PropTypes.arrayOf(
     PropTypes.shape({
@@ -53,3 +59,5 @@ StartWorkout.propTypes = {
     })
   ).isRequired,
 };
+
+export default StartWorkout;
