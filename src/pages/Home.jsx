@@ -36,7 +36,7 @@ const Home = () => {
     <Box sx={{ width: '100%', typography: 'body1' }}>
       <TabContext value={tab}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleTab} aria-label="lab API tabs example">
+          <TabList onChange={handleTab}>
             <Tab label="Create Workout" value="create-workout" />
             <Tab label="Start Workout" value="start-workout" />
           </TabList>

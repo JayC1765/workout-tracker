@@ -6,6 +6,7 @@ import { IoIosSettings } from 'react-icons/io';
 import { IoMdClose } from 'react-icons/io';
 import Settings from './Settings';
 import Box from '@mui/material/Box';
+import WorkoutType from '../types/WorkoutType';
 
 const Timer = ({ workout, setShowTimer, currWorkouts }) => {
   const [workTime, setWorkTime] = useState(10);
@@ -92,6 +93,8 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
       setIsResting(!isResting);
       setIsPaused(!isPaused);
     }
+
+    setShowSettings(false);
   };
 
   const handleReset = () => {
@@ -104,6 +107,7 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
     }
 
     setIsPaused(true);
+    setShowSettings(false);
   };
 
   const handleBack = () => {
@@ -127,7 +131,6 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
         justifyContent: 'space-between',
         alignItems: 'flex-start',
         margin: '10px 20px',
-        border: '1px solid black',
       }}
     >
       <Button onClick={handleBack}>Go back</Button>
@@ -195,10 +198,14 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
       </Box>
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'flex-end',
-          width: '400px',
+          ...(showSettings
+            ? {
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+                width: '400px',
+              }
+            : {}),
         }}
       >
         {!showSettings ? (
@@ -231,27 +238,7 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
 export default Timer;
 
 Timer.propTypes = {
-  workout: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    category: PropTypes.string,
-    description: PropTypes.string,
-    difficulty: PropTypes.string,
-    reps: PropTypes.number,
-    sets: PropTypes.number,
-    currentSets: PropTypes.number,
-  }).isRequired,
+  workout: PropTypes.shape(WorkoutType).isRequired,
   setShowTimer: PropTypes.func.isRequired,
-  currWorkouts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      category: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-      difficulty: PropTypes.string.isRequired,
-      reps: PropTypes.number.isRequired,
-      sets: PropTypes.number.isRequired,
-      currentSets: PropTypes.number.isRequired,
-    })
-  ).isRequired,
+  currWorkouts: PropTypes.arrayOf(PropTypes.shape(WorkoutType)).isRequired,
 };

@@ -9,7 +9,9 @@ import {
   Box,
   Typography,
 } from '@mui/material';
+import PropTypes from 'prop-types';
 import WorkoutCard from './WorkoutCard';
+import WorkoutType from '../types/WorkoutType';
 
 const CreateWorkout = ({ currWorkouts }) => {
   const [categories, setCategories] = useState([]);
@@ -93,6 +95,13 @@ const CreateWorkout = ({ currWorkouts }) => {
       )}
     </div>
   );
+};
+
+CreateWorkout.propTypes = {
+  currWorkouts: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.shape(WorkoutType)),
+    PropTypes.array,
+  ]).isRequired,
 };
 
 export default CreateWorkout;

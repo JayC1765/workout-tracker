@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
+import { PropTypes } from 'prop-types';
 
 const Settings = ({
   workTime,
@@ -89,6 +89,18 @@ const Settings = ({
       </Box>
     </Box>
   );
+};
+
+Settings.propTypes = {
+  workTime: PropTypes.number,
+  setWorkTime: PropTypes.func,
+  restTime: PropTypes.number,
+  setRestTime: PropTypes.func,
+  setTimeLeft: PropTypes.func,
+  setIsActive: PropTypes.func,
+  setIsResting: PropTypes.func,
+  setIsPaused: PropTypes.func,
+  mode: PropTypes.string,
 };
 
 export default Settings;

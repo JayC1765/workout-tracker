@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
+import PropTypes from 'prop-types';
+import WorkoutType from '../types/WorkoutType';
 
 const ActiveWorkout = ({ workout, setShowTimer, setCurrWorkout }) => {
-  const [currStatus, setCurrentStatus] = useState(workout.status);
+  const { name, reps, sets, description, status } = workout;
 
   const handleStart = () => {
     setShowTimer(true);
@@ -12,13 +13,13 @@ const ActiveWorkout = ({ workout, setShowTimer, setCurrWorkout }) => {
 
   const renderButton = () => {
     return (
-      currStatus !== 'Completed' && (
+      status !== 'Completed' && (
         <Button
           variant="contained"
-          color={currStatus === 'Not Started' ? 'primary' : 'secondary'}
+          color={status === 'Not Started' ? 'primary' : 'secondary'}
           onClick={handleStart}
         >
-          {currStatus === 'Not Started' ? 'Start Workout' : 'Continue'}
+          {status === 'Not Started' ? 'Start Workout' : 'Continue'}
         </Button>
       )
     );
@@ -28,31 +29,37 @@ const ActiveWorkout = ({ workout, setShowTimer, setCurrWorkout }) => {
     <Card variant="outlined" style={{ marginBottom: '16px' }}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          {workout.name}
+          {name}
         </Typography>
         <Typography variant="body1">
-          <strong>Reps:</strong> {workout.reps}
+          <strong>Reps:</strong> {reps}
         </Typography>
         <Typography variant="body1">
-          <strong>Sets:</strong> {workout.sets}
+          <strong>Sets:</strong> {sets}
         </Typography>
         <Typography variant="body1">
-          <strong>Description:</strong> {workout.description}
+          <strong>Description:</strong> {description}
         </Typography>
         <Typography variant="body1">
           <strong>Status:</strong>{' '}
-          {workout.status === 'Completed' ? (
+          {status === 'Completed' ? (
             <IoIosCheckmarkCircle
               style={{ fontSize: '20px', color: 'green' }}
             />
           ) : (
-            workout.status
+            status
           )}
         </Typography>
         {renderButton()}
       </CardContent>
     </Card>
   );
+};
+
+ActiveWorkout.propTypes = {
+  workout: PropTypes.shape(WorkoutType).isRequired,
+  setShowTimer: PropTypes.func.isRequired,
+  setCurrWorkout: PropTypes.func.isRequired,
 };
 
 export default ActiveWorkout;
