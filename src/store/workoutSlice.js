@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   allWorkouts: [],
   categories: [],
-  newWorkouts: [],
 };
 
 const workoutSlice = createSlice({
