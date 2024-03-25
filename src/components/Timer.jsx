@@ -2,14 +2,21 @@ import { useState, useEffect } from 'react';
 import { CircularProgress, Typography, Button } from '@mui/material';
 import { updateLSWorkout } from '../util/workoutsLS';
 import PropTypes from 'prop-types';
+import { IoIosSettings } from 'react-icons/io';
+import { IoMdClose } from 'react-icons/io';
+import Settings from './Settings';
+import Box from '@mui/material/Box';
 
 const Timer = ({ workout, setShowTimer, currWorkouts }) => {
-  const [timeLeft, setTimeLeft] = useState(10);
+  const [workTime, setWorkTime] = useState(10);
+  const [restTime, setRestTime] = useState(5);
+  const [timeLeft, setTimeLeft] = useState(workTime);
   const [isActive, setIsActive] = useState(false);
   const [isResting, setIsResting] = useState(false);
   const [isPaused, setIsPaused] = useState(null);
   const [sets, setSets] = useState(workout.currentSets);
   const [mode, setMode] = useState('active');
+  const [showSettings, setShowSettings] = useState(false);
 
   useEffect(() => {
     let interval;
@@ -23,7 +30,7 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
             setMode('rest');
             setSets((prevSet) => prevSet - 1);
             if (sets >= 2) {
-              setTimeLeft(5);
+              setTimeLeft(restTime);
               setIsResting(true);
             }
           }
@@ -39,7 +46,7 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
             setIsResting(false);
             setIsActive(true);
             setMode('active');
-            setTimeLeft(10);
+            setTimeLeft(workTime);
           }
           return prevTime - 1;
         });
@@ -89,10 +96,10 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
 
   const handleReset = () => {
     if (mode === 'active') {
-      setTimeLeft(10);
+      setTimeLeft(workTime);
       setIsActive(false);
     } else {
-      setTimeLeft(5);
+      setTimeLeft(restTime);
       setIsResting(false);
     }
 
@@ -101,12 +108,30 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
 
   const handleBack = () => {
     setShowTimer(false);
+    setIsActive(false);
+    setIsResting(false);
+    setShowSettings(false);
+  };
+
+  const handleSettings = () => {
+    setShowSettings(!showSettings);
+    setIsActive(false);
+    setIsResting(false);
+    setIsPaused(true);
   };
 
   return (
-    <div>
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        margin: '10px 20px',
+        border: '1px solid black',
+      }}
+    >
       <Button onClick={handleBack}>Go back</Button>
-      <div
+      <Box
         style={{
           textAlign: 'center',
         }}
@@ -121,8 +146,8 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
             : 'GREAT JOB! Workout Completed'}
         </Typography>
         {sets > 0 && (
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div
+          <Box style={{ display: 'flex', flexDirection: 'column' }}>
+            <Box
               style={{
                 position: 'relative',
                 display: 'inline-block',
@@ -133,8 +158,8 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
                 variant="determinate"
                 value={
                   !isResting && mode === 'active'
-                    ? (timeLeft / 10) * 100
-                    : (timeLeft / 5) * 100
+                    ? (timeLeft / workTime) * 100
+                    : (timeLeft / restTime) * 100
                 }
                 color={
                   !isResting && mode === 'active' ? 'primary' : 'secondary'
@@ -154,21 +179,52 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
               >
                 {timeLeft}
               </Typography>
-            </div>
+            </Box>
             {!isActive && !isResting && isPaused === null ? (
               <Button onClick={handleStart}>Start</Button>
             ) : (
-              <div>
+              <Box>
                 <Button onClick={handlePause}>
                   {isPaused ? 'Continue' : 'Pause'}
                 </Button>
                 <Button onClick={handleReset}>Reset</Button>
-              </div>
+              </Box>
             )}
-          </div>
+          </Box>
         )}
-      </div>
-    </div>
+      </Box>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          width: '400px',
+        }}
+      >
+        {!showSettings ? (
+          <Button onClick={handleSettings}>
+            <IoIosSettings style={{ fontSize: '24px' }} /> settings
+          </Button>
+        ) : (
+          <Button onClick={() => setShowSettings(false)}>
+            <IoMdClose style={{ fontSize: '24px' }} />
+          </Button>
+        )}
+        {showSettings && (
+          <Settings
+            workTime={workTime}
+            setWorkTime={setWorkTime}
+            restTime={restTime}
+            setRestTime={setRestTime}
+            setTimeLeft={setTimeLeft}
+            mode={mode}
+            setIsActive={setIsActive}
+            setIsResting={setIsResting}
+            setIsPaused={setIsPaused}
+          />
+        )}
+      </Box>
+    </Box>
   );
 };
 

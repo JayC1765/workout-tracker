@@ -1,38 +1,55 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ActiveWorkout from './ActiveWorkout';
 import Timer from './Timer';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 function StartWorkout({ currWorkouts }) {
   const [showTimer, setShowTimer] = useState(false);
   const [currWorkout, setCurrWorkout] = useState(null);
-  // const [workout, setWorkout] = useState({
-  //   id: 11,
-  //   name: 'Dumbbell Flyes',
-  //   description:
-  //     'Dumbbell flyes are an isolation exercise that targets the chest muscles.',
-  //   difficulty: 'Intermediate',
-  //   equipment: 'Dumbbells',
-  //   duration_minutes: 20,
-  //   category: 'Chest',
-  //   sets: 2,
-  //   reps: 12,
-  //   status: 'Not Started',
-  //   currentSets: 2,
-  // });
+  const [isIncomplete, setIsIncomplete] = useState(false);
 
-  return (
-    <div>
-      {!showTimer ? (
-        currWorkouts &&
-        currWorkouts.map((workout) => (
+  const renderActiveWorkouts = (workout) => {
+    if (isIncomplete) {
+      if (workout.status !== 'Completed') {
+        return (
           <ActiveWorkout
             key={workout.id}
             workout={workout}
             setShowTimer={setShowTimer}
             setCurrWorkout={setCurrWorkout}
           />
-        ))
+        );
+      }
+    } else {
+      return (
+        <ActiveWorkout
+          key={workout.id}
+          workout={workout}
+          setShowTimer={setShowTimer}
+          setCurrWorkout={setCurrWorkout}
+        />
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div>
+      {!showTimer ? (
+        <>
+          <FormControlLabel
+            onChange={() => setIsIncomplete(!isIncomplete)}
+            control={<Switch />}
+            label="Incomplete"
+          />
+          {currWorkouts.length > 0 ? (
+            currWorkouts.map(renderActiveWorkouts)
+          ) : (
+            <p>Please add workout first</p>
+          )}
+        </>
       ) : (
         <Timer
           setShowTimer={setShowTimer}
@@ -44,8 +61,6 @@ function StartWorkout({ currWorkouts }) {
   );
 }
 
-export default StartWorkout;
-
 StartWorkout.propTypes = {
   currWorkouts: PropTypes.arrayOf(
     PropTypes.shape({
@@ -55,3 +70,5 @@ StartWorkout.propTypes = {
     })
   ).isRequired,
 };
+
+export default StartWorkout;
