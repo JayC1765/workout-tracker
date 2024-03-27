@@ -1,9 +1,11 @@
-const getLSWorkouts = (key) => {
+import { ActiveWorkoutType, WorkoutType } from '../types/types';
+
+const getLSWorkouts = (key: string): ActiveWorkoutType[] => {
   const workouts = localStorage.getItem(key);
   return workouts ? JSON.parse(workouts) : [];
 };
 
-const addLSWorkouts = (key, workout) => {
+const addLSWorkouts = (key: string, workout: WorkoutType) => {
   const workouts = getLSWorkouts(key);
   const updatedWorkouts = [
     ...workouts,
@@ -12,7 +14,7 @@ const addLSWorkouts = (key, workout) => {
   localStorage.setItem(key, JSON.stringify(updatedWorkouts));
 };
 
-const updateLSWorkout = (key, workouts) => {
+const updateLSWorkout = (key: string, workouts: ActiveWorkoutType[]) => {
   localStorage.setItem(key, JSON.stringify(workouts));
 };
 
