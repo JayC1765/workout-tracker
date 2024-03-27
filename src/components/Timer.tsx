@@ -1,26 +1,35 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CircularProgress, Typography, Button } from '@mui/material';
 import { updateLSWorkout } from '../util/workoutsLS';
-import PropTypes from 'prop-types';
 import { IoIosSettings } from 'react-icons/io';
 import { IoMdClose } from 'react-icons/io';
 import Settings from './Settings';
 import Box from '@mui/material/Box';
-import WorkoutType from '../types/WorkoutType';
+import { ActiveWorkoutType } from '../types/types';
 
-const Timer = ({ workout, setShowTimer, currWorkouts }) => {
-  const [workTime, setWorkTime] = useState(10);
-  const [restTime, setRestTime] = useState(5);
-  const [timeLeft, setTimeLeft] = useState(workTime);
-  const [isActive, setIsActive] = useState(false);
-  const [isResting, setIsResting] = useState(false);
-  const [isPaused, setIsPaused] = useState(null);
-  const [sets, setSets] = useState(workout.currentSets);
-  const [mode, setMode] = useState('active');
-  const [showSettings, setShowSettings] = useState(false);
+interface TimerProps {
+  workout: ActiveWorkoutType | null;
+  setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
+  currWorkouts: ActiveWorkoutType[];
+}
+
+const Timer: React.FC<TimerProps> = ({
+  workout,
+  setShowTimer,
+  currWorkouts,
+}) => {
+  const [workTime, setWorkTime] = useState<number>(10);
+  const [restTime, setRestTime] = useState<number>(5);
+  const [timeLeft, setTimeLeft] = useState<number>(workTime);
+  const [isActive, setIsActive] = useState<boolean>(false);
+  const [isResting, setIsResting] = useState<boolean>(false);
+  const [isPaused, setIsPaused] = useState<boolean | null>(null);
+  const [sets, setSets] = useState<number>(workout?.currentSets || 0);
+  const [mode, setMode] = useState<'active' | 'rest'>('active');
+  const [showSettings, setShowSettings] = useState<boolean>(false);
 
   useEffect(() => {
-    let interval;
+    let interval: any;
 
     if (isActive) {
       interval = setInterval(() => {
@@ -58,18 +67,20 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
   }, [isActive, isResting, timeLeft, sets]);
 
   useEffect(() => {
-    const updatedWorkouts = currWorkouts.map((w) => {
-      if (w.id === workout.id) {
-        return sets === 0
-          ? { ...workout, currentSets: sets, status: 'Completed' }
-          : { ...workout, currentSets: sets, status: 'In Progress' };
-      } else {
-        return w;
-      }
-    });
+    if (workout) {
+      const updatedWorkouts = currWorkouts.map((w) =>
+        w.id === workout.id
+          ? {
+              ...workout,
+              currentSets: sets,
+              status: sets === 0 ? 'Completed' : 'In Progress',
+            }
+          : w
+      );
 
-    updateLSWorkout('myWorkouts', updatedWorkouts);
-    window.dispatchEvent(new Event('workoutsLocalStorage'));
+      updateLSWorkout('myWorkouts', updatedWorkouts);
+      window.dispatchEvent(new Event('workoutsLocalStorage'));
+    }
   }, [sets]);
 
   const handleStart = () => {
@@ -139,61 +150,65 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
           textAlign: 'center',
         }}
       >
-        <Typography variant="h5">{workout.name}</Typography>
-        <Typography variant="h5">Total Sets: {workout.sets}</Typography>
-        <Typography>
-          {sets > 0
-            ? mode === 'active'
-              ? `Sets Remaining: ${sets}`
-              : 'REST PERIOD'
-            : 'GREAT JOB! Workout Completed'}
-        </Typography>
-        {sets > 0 && (
-          <Box style={{ display: 'flex', flexDirection: 'column' }}>
-            <Box
-              style={{
-                position: 'relative',
-                display: 'inline-block',
-                marginTop: '20px',
-              }}
-            >
-              <CircularProgress
-                variant="determinate"
-                value={
-                  !isResting && mode === 'active'
-                    ? (timeLeft / workTime) * 100
-                    : (timeLeft / restTime) * 100
-                }
-                color={
-                  !isResting && mode === 'active' ? 'primary' : 'secondary'
-                }
-                size={200}
-                thickness={2}
-                style={{ marginBottom: '20px' }}
-              />
-              <Typography
-                variant="h4"
-                style={{
-                  position: 'absolute',
-                  top: '45%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                }}
-              >
-                {timeLeft}
-              </Typography>
-            </Box>
-            {!isActive && !isResting && isPaused === null ? (
-              <Button onClick={handleStart}>Start</Button>
-            ) : (
-              <Box>
-                <Button onClick={handlePause}>
-                  {isPaused ? 'Continue' : 'Pause'}
-                </Button>
-                <Button onClick={handleReset}>Reset</Button>
+        {workout && (
+          <>
+            <Typography variant="h5">{workout.name}</Typography>
+            <Typography variant="h5">Total Sets: {workout.sets}</Typography>
+            <Typography>
+              {sets > 0
+                ? mode === 'active'
+                  ? `Sets Remaining: ${sets}`
+                  : 'REST PERIOD'
+                : 'GREAT JOB! Workout Completed'}
+            </Typography>
+            {sets > 0 && (
+              <Box style={{ display: 'flex', flexDirection: 'column' }}>
+                <Box
+                  style={{
+                    position: 'relative',
+                    display: 'inline-block',
+                    marginTop: '20px',
+                  }}
+                >
+                  <CircularProgress
+                    variant="determinate"
+                    value={
+                      !isResting && mode === 'active'
+                        ? (timeLeft / workTime) * 100
+                        : (timeLeft / restTime) * 100
+                    }
+                    color={
+                      !isResting && mode === 'active' ? 'primary' : 'secondary'
+                    }
+                    size={200}
+                    thickness={2}
+                    style={{ marginBottom: '20px' }}
+                  />
+                  <Typography
+                    variant="h4"
+                    style={{
+                      position: 'absolute',
+                      top: '45%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                  >
+                    {timeLeft}
+                  </Typography>
+                </Box>
+                {!isActive && !isResting && isPaused === null ? (
+                  <Button onClick={handleStart}>Start</Button>
+                ) : (
+                  <Box>
+                    <Button onClick={handlePause}>
+                      {isPaused ? 'Continue' : 'Pause'}
+                    </Button>
+                    <Button onClick={handleReset}>Reset</Button>
+                  </Box>
+                )}
               </Box>
             )}
-          </Box>
+          </>
         )}
       </Box>
       <Box
@@ -236,9 +251,3 @@ const Timer = ({ workout, setShowTimer, currWorkouts }) => {
 };
 
 export default Timer;
-
-Timer.propTypes = {
-  workout: PropTypes.shape(WorkoutType).isRequired,
-  setShowTimer: PropTypes.func.isRequired,
-  currWorkouts: PropTypes.arrayOf(PropTypes.shape(WorkoutType)).isRequired,
-};

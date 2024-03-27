@@ -1,9 +1,21 @@
+import React from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
-import PropTypes from 'prop-types';
-import WorkoutType from '../types/WorkoutType';
+import { ActiveWorkoutType } from '../types/types';
 
-const ActiveWorkout = ({ workout, setShowTimer, setCurrWorkout }) => {
+interface ActiveWorkoutProps {
+  workout: ActiveWorkoutType;
+  setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrWorkout: React.Dispatch<
+    React.SetStateAction<ActiveWorkoutType | null>
+  >;
+}
+
+const ActiveWorkout: React.FC<ActiveWorkoutProps> = ({
+  workout,
+  setShowTimer,
+  setCurrWorkout,
+}) => {
   const { name, reps, sets, description, status } = workout;
 
   const handleStart = () => {
@@ -54,12 +66,6 @@ const ActiveWorkout = ({ workout, setShowTimer, setCurrWorkout }) => {
       </CardContent>
     </Card>
   );
-};
-
-ActiveWorkout.propTypes = {
-  workout: PropTypes.shape(WorkoutType).isRequired,
-  setShowTimer: PropTypes.func.isRequired,
-  setCurrWorkout: PropTypes.func.isRequired,
 };
 
 export default ActiveWorkout;
