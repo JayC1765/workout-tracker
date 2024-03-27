@@ -1,9 +1,21 @@
+import React, { Dispatch, SetStateAction } from 'react';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import { PropTypes } from 'prop-types';
 
-const Settings = ({
+interface SettingsProps {
+  workTime: number;
+  setWorkTime: Dispatch<SetStateAction<number>>;
+  restTime: number;
+  setRestTime: Dispatch<SetStateAction<number>>;
+  setTimeLeft: Dispatch<SetStateAction<number>>;
+  setIsActive: Dispatch<SetStateAction<boolean>>;
+  setIsResting: Dispatch<SetStateAction<boolean>>;
+  setIsPaused: Dispatch<SetStateAction<boolean | null>>;
+  mode: string;
+}
+
+const Settings: React.FC<SettingsProps> = ({
   workTime,
   setWorkTime,
   restTime,
@@ -14,20 +26,20 @@ const Settings = ({
   setIsPaused,
   mode,
 }) => {
-  const handleWorkTime = (event, newValue) => {
+  const handleWorkTime = (_event: Event, newValue: number | number[]) => {
     if (mode === 'active') {
-      setTimeLeft(newValue);
+      setTimeLeft(newValue as number);
     }
-    setWorkTime(newValue);
+    setWorkTime(newValue as number);
     setIsActive(false);
     setIsPaused(true);
   };
 
-  const handleRestTime = (event, newValue) => {
+  const handleRestTime = (_event: Event, newValue: number | number[]) => {
     if (mode === 'rest') {
-      setTimeLeft(newValue);
+      setTimeLeft(newValue as number);
     }
-    setRestTime(newValue);
+    setRestTime(newValue as number);
     setIsResting(false);
     setIsPaused(true);
   };
@@ -89,18 +101,6 @@ const Settings = ({
       </Box>
     </Box>
   );
-};
-
-Settings.propTypes = {
-  workTime: PropTypes.number,
-  setWorkTime: PropTypes.func,
-  restTime: PropTypes.number,
-  setRestTime: PropTypes.func,
-  setTimeLeft: PropTypes.func,
-  setIsActive: PropTypes.func,
-  setIsResting: PropTypes.func,
-  setIsPaused: PropTypes.func,
-  mode: PropTypes.string,
 };
 
 export default Settings;
