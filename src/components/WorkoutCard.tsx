@@ -36,7 +36,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, setWorkouts }) => {
           <Typography variant="h6">Reps: {reps}</Typography>
         </CardContent>
         <CardActions>
-          <Button onClick={() => handleAdd(id)}>Add Workout</Button>
+          <Button onClick={() => handleAdd(id)}>Add exercise</Button>
         </CardActions>
       </Box>
     </Card>

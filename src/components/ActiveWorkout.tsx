@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
-import { ActiveWorkoutType } from '../types/types';
+import { ActiveWorkoutType, WorkoutStatus } from '../types/types';
 
 interface ActiveWorkoutProps {
   workout: ActiveWorkoutType;
@@ -25,13 +25,13 @@ const ActiveWorkout: React.FC<ActiveWorkoutProps> = ({
 
   const renderButton = () => {
     return (
-      status !== 'Completed' && (
+      status !== WorkoutStatus.Completed && (
         <Button
           variant="contained"
-          color={status === 'Not Started' ? 'primary' : 'secondary'}
+          color={status === WorkoutStatus.NotStarted ? 'primary' : 'secondary'}
           onClick={handleStart}
         >
-          {status === 'Not Started' ? 'Start Workout' : 'Continue'}
+          {status === WorkoutStatus.NotStarted ? 'Start exercise' : 'Continue'}
         </Button>
       )
     );
@@ -54,7 +54,7 @@ const ActiveWorkout: React.FC<ActiveWorkoutProps> = ({
         </Typography>
         <Typography variant="body1">
           <strong>Status:</strong>{' '}
-          {status === 'Completed' ? (
+          {status === WorkoutStatus.Completed ? (
             <IoIosCheckmarkCircle
               style={{ fontSize: '20px', color: 'green' }}
             />

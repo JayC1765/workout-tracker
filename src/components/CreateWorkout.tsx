@@ -63,8 +63,8 @@ const CreateWorkout: React.FC<CreateWorkoutProps> = ({ currWorkouts }) => {
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <p>What do you want to workout today?</p>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 150 }}>
-          <InputLabel>Select a Muscle</InputLabel>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
+          <InputLabel>Select muscle group or activity</InputLabel>
           <Select
             value={currCategory}
             onChange={(e) => {
@@ -83,7 +83,7 @@ const CreateWorkout: React.FC<CreateWorkoutProps> = ({ currWorkouts }) => {
         </FormControl>
       </div>
       <Button variant="contained" onClick={handleClick}>
-        Generate Workout
+        Generate Exercises
       </Button>
 
       {workouts.length > 0 ? (
@@ -99,7 +99,7 @@ const CreateWorkout: React.FC<CreateWorkoutProps> = ({ currWorkouts }) => {
       ) : (
         isDuplicate && (
           <Typography>
-            All workouts in this muscle group has already been added.
+            All exercises in this muscle group have already been added.
           </Typography>
         )
       )}
