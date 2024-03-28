@@ -1,17 +1,24 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import ActiveWorkout from './ActiveWorkout';
 import Timer from './Timer';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import WorkoutType from '../types/WorkoutType';
+import { ActiveWorkoutType } from '../types/types';
 
-function StartWorkout({ currWorkouts }) {
-  const [showTimer, setShowTimer] = useState(false);
-  const [currWorkout, setCurrWorkout] = useState(null);
+interface StartWorkoutProps {
+  currWorkouts: ActiveWorkoutType[];
+}
+
+const StartWorkout: React.FC<StartWorkoutProps> = ({ currWorkouts }) => {
+  const [showTimer, setShowTimer] = useState<boolean>(false);
+  const [currWorkout, setCurrWorkout] = useState<ActiveWorkoutType | null>(
+    null
+  );
   const [isIncomplete, setIsIncomplete] = useState(false);
 
-  const renderActiveWorkouts = (workout) => {
+  const renderActiveWorkouts = (
+    workout: ActiveWorkoutType
+  ): JSX.Element | null => {
     if (isIncomplete) {
       if (workout.status !== 'Completed') {
         return (
@@ -62,10 +69,6 @@ function StartWorkout({ currWorkouts }) {
       )}
     </div>
   );
-}
-
-StartWorkout.propTypes = {
-  currWorkouts: PropTypes.arrayOf(PropTypes.shape(WorkoutType)).isRequired,
 };
 
 export default StartWorkout;

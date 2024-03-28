@@ -1,21 +1,22 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import CreateWorkout from '../components/CreateWorkout';
-import StartWorkout from '../components/StartWorkout';
-import { getLSWorkouts } from '../util/workoutsLS';
+import CreateWorkout from '../components/CreateWorkout.tsx';
+import StartWorkout from '../components/StartWorkout.tsx';
+import { getLSWorkouts } from '../util/workoutsLS.ts';
+import { ActiveWorkoutType } from '../types/types';
 
-const Home = () => {
-  const [tab, setTab] = useState('create-workout');
-  const [currWorkouts, setCurrWorkouts] = useState([]);
+const Home: React.FC = () => {
+  const [tab, setTab] = useState<string>('create-workout');
+  const [currWorkouts, setCurrWorkouts] = useState<ActiveWorkoutType[]>([]);
 
   useEffect(() => {
     // Retrieve user workouts from localStorage
     const updateWorkouts = () => {
-      const workouts = getLSWorkouts('myWorkouts');
+      const workouts: ActiveWorkoutType[] = getLSWorkouts('myWorkouts');
       setCurrWorkouts(workouts);
     };
 
@@ -28,7 +29,7 @@ const Home = () => {
     };
   }, []);
 
-  const handleTab = (event, newValue) => {
+  const handleTab = (_event: React.SyntheticEvent, newValue: string) => {
     setTab(newValue);
   };
 

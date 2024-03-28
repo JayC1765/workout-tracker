@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   FormControl,
@@ -9,26 +9,36 @@ import {
   Box,
   Typography,
 } from '@mui/material';
-import PropTypes from 'prop-types';
-import WorkoutCard from './WorkoutCard';
-import WorkoutType from '../types/WorkoutType';
+import WorkoutCard from './WorkoutCard.tsx';
+import { ActiveWorkoutType, WorkoutType } from '../types/types';
+import { setCategoriesStore } from '../store/workoutSlice.ts';
+import { RootState } from '../store/store.ts';
 
-const CreateWorkout = ({ currWorkouts }) => {
-  const [categories, setCategories] = useState([]);
-  const [currCategory, setCurrCategory] = useState('');
-  const [workouts, setWorkouts] = useState([]);
-  const allWorkouts = useSelector((state) => state.workouts.allWorkouts);
-  const [isDuplicate, setIsDuplicate] = useState(false);
+interface CreateWorkoutProps {
+  currWorkouts: ActiveWorkoutType[];
+}
+
+const CreateWorkout: React.FC<CreateWorkoutProps> = ({ currWorkouts }) => {
+  const [categories, setCategories] = useState<string[]>([]);
+  const [currCategory, setCurrCategory] = useState<string>('');
+  const [workouts, setWorkouts] = useState<WorkoutType[]>([]);
+  const allWorkouts: WorkoutType[] = useSelector(
+    (state: RootState) => state.workouts.allWorkouts
+  );
+  const [isDuplicate, setIsDuplicate] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // consider memoizing this computation
     const getCategories = () => {
-      const categories = [];
+      const categories: string[] = [];
 
       allWorkouts.forEach((workout) => {
         if (!categories.includes(workout.category))
           categories.push(workout.category);
       });
+
+      dispatch(setCategoriesStore(categories));
 
       return categories;
     };
@@ -95,13 +105,6 @@ const CreateWorkout = ({ currWorkouts }) => {
       )}
     </div>
   );
-};
-
-CreateWorkout.propTypes = {
-  currWorkouts: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.shape(WorkoutType)),
-    PropTypes.array,
-  ]).isRequired,
 };
 
 export default CreateWorkout;

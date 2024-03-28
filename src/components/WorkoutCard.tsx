@@ -1,3 +1,4 @@
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
@@ -5,13 +6,18 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CardHeader from '@mui/material/CardHeader';
 import Box from '@mui/material/Box';
-import PropTypes from 'prop-types';
-import { addLSWorkouts } from '../util/workoutsLS';
+import { addLSWorkouts } from '../util/workoutsLS.ts';
+import { WorkoutType } from '../types/types.ts';
 
-const WorkoutCard = ({ workout, setWorkouts }) => {
+interface WorkoutCardProps {
+  workout: WorkoutType;
+  setWorkouts: React.Dispatch<React.SetStateAction<WorkoutType[]>>;
+}
+
+const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, setWorkouts }) => {
   const { id, name, category, description, difficulty, reps, sets } = workout;
 
-  const handleAdd = (id) => {
+  const handleAdd = (id: number) => {
     addLSWorkouts('myWorkouts', workout);
     console.log('added to LS');
     window.dispatchEvent(new Event('workoutsLocalStorage'));
@@ -35,20 +41,6 @@ const WorkoutCard = ({ workout, setWorkouts }) => {
       </Box>
     </Card>
   );
-};
-
-WorkoutCard.propTypes = {
-  workout: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-    category: PropTypes.string,
-    description: PropTypes.string,
-    difficulty: PropTypes.string,
-    reps: PropTypes.number,
-    sets: PropTypes.number,
-    currentSets: PropTypes.number,
-  }).isRequired,
-  setWorkouts: PropTypes.func.isRequired,
 };
 
 export default WorkoutCard;

@@ -1,9 +1,9 @@
 import './App.css';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setWorkouts } from './store/workoutSlice';
+import { setWorkoutsStore } from './store/workoutSlice.ts';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
+import Home from './pages/Home.tsx';
 
 function App() {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ function App() {
         }
 
         const { workouts } = await response.json();
-        dispatch(setWorkouts(workouts));
+        dispatch(setWorkoutsStore(workouts));
       } catch (err) {
         console.log('Error while fetching workouts:', err);
       }
