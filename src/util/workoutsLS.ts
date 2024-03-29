@@ -18,4 +18,11 @@ const updateLSWorkout = (key: string, workouts: ActiveWorkoutType[]) => {
   localStorage.setItem(key, JSON.stringify(workouts));
 };
 
-export { getLSWorkouts, addLSWorkouts, updateLSWorkout };
+const removeLSWorkouts = (key: string, id: number) => {
+  const workouts = getLSWorkouts(key);
+  const updatedWorkouts = workouts.filter((workout) => workout.id !== id);
+
+  localStorage.setItem(key, JSON.stringify(updatedWorkouts));
+};
+
+export { getLSWorkouts, addLSWorkouts, updateLSWorkout, removeLSWorkouts };
