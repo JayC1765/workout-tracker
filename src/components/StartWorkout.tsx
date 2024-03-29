@@ -3,7 +3,7 @@ import ActiveWorkout from './ActiveWorkout';
 import Timer from './Timer';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { ActiveWorkoutType } from '../types/types';
+import { ActiveWorkoutType, WorkoutStatus } from '../types/types';
 
 interface StartWorkoutProps {
   currWorkouts: ActiveWorkoutType[];
@@ -20,7 +20,7 @@ const StartWorkout: React.FC<StartWorkoutProps> = ({ currWorkouts }) => {
     workout: ActiveWorkoutType
   ): JSX.Element | null => {
     if (isIncomplete) {
-      if (workout.status !== 'Completed') {
+      if (workout.status !== WorkoutStatus.Completed) {
         return (
           <ActiveWorkout
             key={workout.id}
