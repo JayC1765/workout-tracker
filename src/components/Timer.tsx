@@ -14,14 +14,18 @@ enum TimerMode {
 
 interface TimerProps {
   workout: ActiveWorkoutType | null;
-  setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
   currWorkouts: ActiveWorkoutType[];
+  setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrWorkout: React.Dispatch<
+    React.SetStateAction<ActiveWorkoutType | null>
+  >;
 }
 
 const Timer: React.FC<TimerProps> = ({
   workout,
-  setShowTimer,
   currWorkouts,
+  setShowTimer,
+  setCurrWorkout,
 }) => {
   const [workTime, setWorkTime] = useState<number>(10);
   const [restTime, setRestTime] = useState<number>(5);
@@ -132,6 +136,7 @@ const Timer: React.FC<TimerProps> = ({
     setIsActive(false);
     setIsResting(false);
     setShowSettings(false);
+    setCurrWorkout(null);
   };
 
   const handleSettings = () => {
@@ -142,15 +147,56 @@ const Timer: React.FC<TimerProps> = ({
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        margin: '10px 20px',
-      }}
-    >
-      <Button onClick={handleBack}>Go back</Button>
+    <Box sx={{ width: '50%', padding: '0px 30px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          height: '200px',
+        }}
+      >
+        <Box
+          sx={{
+            ...(showSettings
+              ? {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                  width: '400px',
+                }
+              : {}),
+          }}
+        >
+          {!showSettings && (
+            <Button onClick={handleSettings}>
+              <IoIosSettings style={{ fontSize: '24px' }} /> settings
+            </Button>
+          )}
+          {showSettings && (
+            <Settings
+              workTime={workTime}
+              setWorkTime={setWorkTime}
+              restTime={restTime}
+              setRestTime={setRestTime}
+              setTimeLeft={setTimeLeft}
+              mode={mode}
+              setIsActive={setIsActive}
+              setIsResting={setIsResting}
+              setIsPaused={setIsPaused}
+            />
+          )}
+        </Box>
+        <Button
+          style={{ alignSelf: 'flex-start' }}
+          // onClick={() => {
+          //   setShowSettings(false);
+          //   setCurrWorkout(null);
+          // }}
+          onClick={handleBack}
+        >
+          <IoMdClose style={{ fontSize: '24px' }} />
+        </Button>
+      </Box>
       <Box
         style={{
           textAlign: 'center',
@@ -217,41 +263,6 @@ const Timer: React.FC<TimerProps> = ({
               </Box>
             )}
           </>
-        )}
-      </Box>
-      <Box
-        sx={{
-          ...(showSettings
-            ? {
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-end',
-                width: '400px',
-              }
-            : {}),
-        }}
-      >
-        {!showSettings ? (
-          <Button onClick={handleSettings}>
-            <IoIosSettings style={{ fontSize: '24px' }} /> settings
-          </Button>
-        ) : (
-          <Button onClick={() => setShowSettings(false)}>
-            <IoMdClose style={{ fontSize: '24px' }} />
-          </Button>
-        )}
-        {showSettings && (
-          <Settings
-            workTime={workTime}
-            setWorkTime={setWorkTime}
-            restTime={restTime}
-            setRestTime={setRestTime}
-            setTimeLeft={setTimeLeft}
-            mode={mode}
-            setIsActive={setIsActive}
-            setIsResting={setIsResting}
-            setIsPaused={setIsPaused}
-          />
         )}
       </Box>
     </Box>
