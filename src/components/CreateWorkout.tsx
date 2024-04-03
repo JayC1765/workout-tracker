@@ -6,7 +6,6 @@ import {
   MenuItem,
   Select,
   Box,
-  Typography,
 } from '@mui/material';
 import WorkoutCard from './WorkoutCard.tsx';
 import { ActiveWorkoutType, WorkoutType } from '../types/types';
