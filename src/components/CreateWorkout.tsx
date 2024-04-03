@@ -1,4 +1,3 @@
-import { useSelector, useDispatch } from 'react-redux';
 import React, { useState, useEffect } from 'react';
 import {
   Button,
@@ -13,6 +12,7 @@ import WorkoutCard from './WorkoutCard.tsx';
 import { ActiveWorkoutType, WorkoutType } from '../types/types';
 import { setCategoriesStore } from '../store/workoutSlice.ts';
 import { RootState } from '../store/store.ts';
+import { useSelector, useDispatch } from 'react-redux';
 
 interface CreateWorkoutProps {
   currWorkouts: ActiveWorkoutType[];
@@ -25,11 +25,14 @@ const CreateWorkout: React.FC<CreateWorkoutProps> = ({ currWorkouts }) => {
   const allWorkouts: WorkoutType[] = useSelector(
     (state: RootState) => state.workouts.allWorkouts
   );
-  const [isDuplicate, setIsDuplicate] = useState<boolean>(false);
   const dispatch = useDispatch();
+  const [addedWorkoutIds, setAddedWorkoutIds] = useState<number[]>([]);
 
   useEffect(() => {
-    // consider memoizing this computation
+    setAddedWorkoutIds(currWorkouts.map((workout) => workout.id));
+  }, [currWorkouts]);
+
+  useEffect(() => {
     const getCategories = () => {
       const categories: string[] = [];
 
@@ -44,18 +47,13 @@ const CreateWorkout: React.FC<CreateWorkoutProps> = ({ currWorkouts }) => {
     };
 
     setCategories(getCategories());
-  }, [allWorkouts]);
+  }, [allWorkouts, dispatch]);
 
   const handleClick = () => {
-    const currWorkoutsID = currWorkouts.map((workout) => workout.id);
-
     const workoutList = allWorkouts.filter(
-      (workout) =>
-        workout.category === currCategory &&
-        !currWorkoutsID.includes(workout.id)
+      (workout) => workout.category === currCategory
     );
 
-    if (workoutList.length === 0) setIsDuplicate(true);
     setWorkouts(workoutList);
   };
 
@@ -63,13 +61,12 @@ const CreateWorkout: React.FC<CreateWorkoutProps> = ({ currWorkouts }) => {
     <div>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <p>What do you want to workout today?</p>
-        <FormControl variant="standard" sx={{ m: 1, minWidth: 150 }}>
-          <InputLabel>Select a Muscle</InputLabel>
+        <FormControl variant="standard" sx={{ m: 1, minWidth: 250 }}>
+          <InputLabel>Select muscle group or activity</InputLabel>
           <Select
             value={currCategory}
             onChange={(e) => {
               setCurrCategory(e.target.value);
-              setIsDuplicate(false);
             }}
             sx={{ textAlign: 'center' }}
           >
@@ -83,25 +80,19 @@ const CreateWorkout: React.FC<CreateWorkoutProps> = ({ currWorkouts }) => {
         </FormControl>
       </div>
       <Button variant="contained" onClick={handleClick}>
-        Generate Workout
+        Generate Exercises
       </Button>
 
-      {workouts.length > 0 ? (
+      {workouts.length > 0 && (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {workouts.map((workout, index) => (
             <WorkoutCard
               key={index}
               workout={workout}
-              setWorkouts={setWorkouts}
+              addedWorkoutIds={addedWorkoutIds}
             />
           ))}
         </Box>
-      ) : (
-        isDuplicate && (
-          <Typography>
-            All workouts in this muscle group has already been added.
-          </Typography>
-        )
       )}
     </div>
   );

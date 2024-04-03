@@ -5,18 +5,27 @@ import { IoIosSettings } from 'react-icons/io';
 import { IoMdClose } from 'react-icons/io';
 import Settings from './Settings';
 import Box from '@mui/material/Box';
-import { ActiveWorkoutType } from '../types/types';
+import { ActiveWorkoutType, WorkoutStatus } from '../types/types';
+
+enum TimerMode {
+  ACTIVE = 'active',
+  REST = 'rest',
+}
 
 interface TimerProps {
   workout: ActiveWorkoutType | null;
-  setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
   currWorkouts: ActiveWorkoutType[];
+  setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
+  setCurrWorkout: React.Dispatch<
+    React.SetStateAction<ActiveWorkoutType | null>
+  >;
 }
 
 const Timer: React.FC<TimerProps> = ({
   workout,
-  setShowTimer,
   currWorkouts,
+  setShowTimer,
+  setCurrWorkout,
 }) => {
   const [workTime, setWorkTime] = useState<number>(10);
   const [restTime, setRestTime] = useState<number>(5);
@@ -25,7 +34,7 @@ const Timer: React.FC<TimerProps> = ({
   const [isResting, setIsResting] = useState<boolean>(false);
   const [isPaused, setIsPaused] = useState<boolean | null>(null);
   const [sets, setSets] = useState<number>(workout?.currentSets || 0);
-  const [mode, setMode] = useState<'active' | 'rest'>('active');
+  const [mode, setMode] = useState<TimerMode>(TimerMode.ACTIVE);
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
   useEffect(() => {
@@ -37,7 +46,7 @@ const Timer: React.FC<TimerProps> = ({
           if (timeLeft === 1) {
             clearInterval(interval);
             setIsActive(false);
-            setMode('rest');
+            setMode(TimerMode.REST);
             setSets((prevSet) => prevSet - 1);
             if (sets >= 2) {
               setTimeLeft(restTime);
@@ -55,7 +64,7 @@ const Timer: React.FC<TimerProps> = ({
           if (timeLeft === 1) {
             setIsResting(false);
             setIsActive(true);
-            setMode('active');
+            setMode(TimerMode.ACTIVE);
             setTimeLeft(workTime);
           }
           return prevTime - 1;
@@ -73,7 +82,8 @@ const Timer: React.FC<TimerProps> = ({
           ? {
               ...workout,
               currentSets: sets,
-              status: sets === 0 ? 'Completed' : 'In Progress',
+              status:
+                sets === 0 ? WorkoutStatus.Completed : WorkoutStatus.InProgress,
             }
           : w
       );
@@ -85,12 +95,12 @@ const Timer: React.FC<TimerProps> = ({
 
   const handleStart = () => {
     setIsActive(true);
-    setMode('active');
+    setMode(TimerMode.ACTIVE);
     setIsPaused(false);
   };
 
   const handlePause = () => {
-    if (mode === 'active') {
+    if (mode === TimerMode.ACTIVE) {
       setIsActive(!isActive);
 
       if (isPaused === null) {
@@ -100,7 +110,7 @@ const Timer: React.FC<TimerProps> = ({
       }
     }
 
-    if (mode === 'rest') {
+    if (mode === TimerMode.REST) {
       setIsResting(!isResting);
       setIsPaused(!isPaused);
     }
@@ -109,7 +119,7 @@ const Timer: React.FC<TimerProps> = ({
   };
 
   const handleReset = () => {
-    if (mode === 'active') {
+    if (mode === TimerMode.ACTIVE) {
       setTimeLeft(workTime);
       setIsActive(false);
     } else {
@@ -126,6 +136,7 @@ const Timer: React.FC<TimerProps> = ({
     setIsActive(false);
     setIsResting(false);
     setShowSettings(false);
+    setCurrWorkout(null);
   };
 
   const handleSettings = () => {
@@ -136,15 +147,56 @@ const Timer: React.FC<TimerProps> = ({
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        margin: '10px 20px',
-      }}
-    >
-      <Button onClick={handleBack}>Go back</Button>
+    <Box sx={{ width: '50%', padding: '0px 30px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          height: '200px',
+        }}
+      >
+        <Box
+          sx={{
+            ...(showSettings
+              ? {
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-end',
+                  width: '400px',
+                }
+              : {}),
+          }}
+        >
+          {!showSettings && (
+            <Button onClick={handleSettings}>
+              <IoIosSettings style={{ fontSize: '24px' }} /> settings
+            </Button>
+          )}
+          {showSettings && (
+            <Settings
+              workTime={workTime}
+              setWorkTime={setWorkTime}
+              restTime={restTime}
+              setRestTime={setRestTime}
+              setTimeLeft={setTimeLeft}
+              mode={mode}
+              setIsActive={setIsActive}
+              setIsResting={setIsResting}
+              setIsPaused={setIsPaused}
+            />
+          )}
+        </Box>
+        <Button
+          style={{ alignSelf: 'flex-start' }}
+          // onClick={() => {
+          //   setShowSettings(false);
+          //   setCurrWorkout(null);
+          // }}
+          onClick={handleBack}
+        >
+          <IoMdClose style={{ fontSize: '24px' }} />
+        </Button>
+      </Box>
       <Box
         style={{
           textAlign: 'center',
@@ -156,7 +208,7 @@ const Timer: React.FC<TimerProps> = ({
             <Typography variant="h5">Total Sets: {workout.sets}</Typography>
             <Typography>
               {sets > 0
-                ? mode === 'active'
+                ? mode === TimerMode.ACTIVE
                   ? `Sets Remaining: ${sets}`
                   : 'REST PERIOD'
                 : 'GREAT JOB! Workout Completed'}
@@ -173,12 +225,14 @@ const Timer: React.FC<TimerProps> = ({
                   <CircularProgress
                     variant="determinate"
                     value={
-                      !isResting && mode === 'active'
+                      !isResting && mode === TimerMode.ACTIVE
                         ? (timeLeft / workTime) * 100
                         : (timeLeft / restTime) * 100
                     }
                     color={
-                      !isResting && mode === 'active' ? 'primary' : 'secondary'
+                      !isResting && mode === TimerMode.ACTIVE
+                        ? 'primary'
+                        : 'secondary'
                     }
                     size={200}
                     thickness={2}
@@ -209,41 +263,6 @@ const Timer: React.FC<TimerProps> = ({
               </Box>
             )}
           </>
-        )}
-      </Box>
-      <Box
-        sx={{
-          ...(showSettings
-            ? {
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-end',
-                width: '400px',
-              }
-            : {}),
-        }}
-      >
-        {!showSettings ? (
-          <Button onClick={handleSettings}>
-            <IoIosSettings style={{ fontSize: '24px' }} /> settings
-          </Button>
-        ) : (
-          <Button onClick={() => setShowSettings(false)}>
-            <IoMdClose style={{ fontSize: '24px' }} />
-          </Button>
-        )}
-        {showSettings && (
-          <Settings
-            workTime={workTime}
-            setWorkTime={setWorkTime}
-            restTime={restTime}
-            setRestTime={setRestTime}
-            setTimeLeft={setTimeLeft}
-            mode={mode}
-            setIsActive={setIsActive}
-            setIsResting={setIsResting}
-            setIsPaused={setIsPaused}
-          />
         )}
       </Box>
     </Box>

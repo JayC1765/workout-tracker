@@ -1,10 +1,12 @@
 import React from 'react';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 import { IoIosCheckmarkCircle } from 'react-icons/io';
-import { ActiveWorkoutType } from '../types/types';
+import { ActiveWorkoutType, WorkoutStatus } from '../types/types';
 
 interface ActiveWorkoutProps {
   workout: ActiveWorkoutType;
+  currWorkout: ActiveWorkoutType | null;
+  showTimer: boolean;
   setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrWorkout: React.Dispatch<
     React.SetStateAction<ActiveWorkoutType | null>
@@ -13,6 +15,8 @@ interface ActiveWorkoutProps {
 
 const ActiveWorkout: React.FC<ActiveWorkoutProps> = ({
   workout,
+  currWorkout,
+  showTimer,
   setShowTimer,
   setCurrWorkout,
 }) => {
@@ -25,20 +29,30 @@ const ActiveWorkout: React.FC<ActiveWorkoutProps> = ({
 
   const renderButton = () => {
     return (
-      status !== 'Completed' && (
+      status !== WorkoutStatus.Completed && (
         <Button
           variant="contained"
-          color={status === 'Not Started' ? 'primary' : 'secondary'}
+          color={status === WorkoutStatus.NotStarted ? 'primary' : 'secondary'}
+          disabled={showTimer}
           onClick={handleStart}
         >
-          {status === 'Not Started' ? 'Start Workout' : 'Continue'}
+          {status === WorkoutStatus.NotStarted ? 'Start exercise' : 'Continue'}
         </Button>
       )
     );
   };
 
   return (
-    <Card variant="outlined" style={{ marginBottom: '16px' }}>
+    <Card
+      variant="outlined"
+      sx={{
+        marginBottom: '16px',
+        border:
+          currWorkout && currWorkout.name === name
+            ? '5px solid green'
+            : undefined,
+      }}
+    >
       <CardContent>
         <Typography variant="h6" gutterBottom>
           {name}
@@ -54,7 +68,7 @@ const ActiveWorkout: React.FC<ActiveWorkoutProps> = ({
         </Typography>
         <Typography variant="body1">
           <strong>Status:</strong>{' '}
-          {status === 'Completed' ? (
+          {status === WorkoutStatus.Completed ? (
             <IoIosCheckmarkCircle
               style={{ fontSize: '20px', color: 'green' }}
             />
