@@ -5,6 +5,8 @@ import { ActiveWorkoutType, WorkoutStatus } from '../types/types';
 
 interface ActiveWorkoutProps {
   workout: ActiveWorkoutType;
+  currWorkout: ActiveWorkoutType | null;
+  showTimer: boolean;
   setShowTimer: React.Dispatch<React.SetStateAction<boolean>>;
   setCurrWorkout: React.Dispatch<
     React.SetStateAction<ActiveWorkoutType | null>
@@ -13,6 +15,8 @@ interface ActiveWorkoutProps {
 
 const ActiveWorkout: React.FC<ActiveWorkoutProps> = ({
   workout,
+  currWorkout,
+  showTimer,
   setShowTimer,
   setCurrWorkout,
 }) => {
@@ -29,6 +33,7 @@ const ActiveWorkout: React.FC<ActiveWorkoutProps> = ({
         <Button
           variant="contained"
           color={status === WorkoutStatus.NotStarted ? 'primary' : 'secondary'}
+          disabled={showTimer}
           onClick={handleStart}
         >
           {status === WorkoutStatus.NotStarted ? 'Start exercise' : 'Continue'}
@@ -38,7 +43,16 @@ const ActiveWorkout: React.FC<ActiveWorkoutProps> = ({
   };
 
   return (
-    <Card variant="outlined" style={{ marginBottom: '16px' }}>
+    <Card
+      variant="outlined"
+      sx={{
+        marginBottom: '16px',
+        border:
+          currWorkout && currWorkout.name === name
+            ? '5px solid green'
+            : undefined,
+      }}
+    >
       <CardContent>
         <Typography variant="h6" gutterBottom>
           {name}
